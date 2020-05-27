@@ -28,7 +28,6 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   comment:Comment;
 
-
   formErrors = {
     'author': '',
     'comment': ''
@@ -56,7 +55,7 @@ export class DishdetailComponent implements OnInit {
     createForm() {
       this.commentForm = this.fb.group({
         author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-        rating: '5',
+        rating: ['5'],
         comment: ['', [Validators.required] ]
       });
 
@@ -65,6 +64,8 @@ export class DishdetailComponent implements OnInit {
 
     this.onValueChanged(); // (re)set validation messages now
     }
+
+    
 
     onValueChanged(data?: any) {
       if (!this.commentForm) { return; }
@@ -78,6 +79,7 @@ export class DishdetailComponent implements OnInit {
             const messages = this.validationMessages[field];
             for (const key in control.errors) {
               if (control.errors.hasOwnProperty(key)) {
+                
                 this.formErrors[field] += messages[key] + ' ';
               }
             }
@@ -88,14 +90,22 @@ export class DishdetailComponent implements OnInit {
   
     onSubmit() {
       this.comment = this.commentForm.value;
+      var d = new Date();
+      var n = d.toISOString();
+      this.comment.date=n;
       console.log(this.comment);
+
+      this.dish.comments.push(this.comment);
+
+
+      
+       
       this.commentForm.reset({
-        rating: '',
         author: '',
-        telnum: '',
+        rating: 5,
         comment: ''
       });
-      this.commentFormDirective.resetForm();
+      this.commentFormDirective.resetForm({rating:'5'});
     }
 
     ngOnInit() {
