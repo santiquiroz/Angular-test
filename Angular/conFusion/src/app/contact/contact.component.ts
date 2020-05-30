@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Feedback } from '../shared/feedback';
+import { Feedback, ContactType } from '../shared/feedback';
 
 @Component({
   selector: 'app-contact',
@@ -14,7 +14,7 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
-
+  contactType = ContactType;
 
   formErrors = {
     'firstname': '',
@@ -51,12 +51,12 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
 
-  createForm() {
+  createForm(): void {
     this.feedbackForm = this.fb.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-      telnum: ['', [Validators.required, Validators.pattern] ],
-      email: ['', [Validators.required, Validators.email] ],
+      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      telnum: ['', [Validators.required, Validators.pattern]],
+      email: ['', [Validators.required, Validators.email]],
       agree: false,
       contacttype: 'None',
       message: ''
@@ -66,6 +66,21 @@ export class ContactComponent implements OnInit {
       .subscribe(data => this.onValueChanged(data));
 
     this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onSubmit() {
+    this.feedback = this.feedbackForm.value;
+    console.log(this.feedback);
+    this.feedbackForm.reset({
+      firstname: '',
+      lastname: '',
+      telnum: '',
+      email: '',
+      agree: false,
+      contacttype: 'None',
+      message: ''
+    });
+    this.feedbackFormDirective.resetForm();
   }
 
   onValueChanged(data?: any) {
@@ -88,18 +103,4 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
-    this.feedbackFormDirective.resetForm();
-  }
 }
