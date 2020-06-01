@@ -10,7 +10,9 @@ import { visibility, flyInOut, expand } from '../animations/app.animation';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
   host: { '[@flyInOut]': 'true', 'style': 'display]: block;' },
-  animations: [flyInOut(), expand()]
+  animations: [flyInOut(), 
+    expand()
+  ]
 })
 
 export class ContactComponent implements OnInit {

@@ -43,7 +43,7 @@
 
     <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
-    <form novalidate [hidden]= "hideForm" [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+    <form novalidate [hidden]= "hideForm" [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()" [@expand] >
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
@@ -97,7 +97,7 @@
   <div fxFlex [hidden]= "hideSpinner">
     <mat-spinner></mat-spinner>
   </div>
-  <div fxFlex [hidden]= "hideSubmition">
+  <div fxFlex [hidden]= "hideSubmition" [@expand]>
     
     <div fxflex *ngIf="feedbackCopy">
       <mat-list>
